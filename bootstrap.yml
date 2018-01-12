@@ -1,5 +1,4 @@
 ---
-
 - name: Apply common config to all machiens
   hosts: all
 

@@ -1,0 +1,8 @@
+---
+tasks:
+  - name: Install Engineering Team Apt Signing GPG key
+    apt_key:
+      url: http://mirror.5thc.co/bootstrap/eng-apt-signing
+      state: present
+    become: yes
+    when: ansible_distribution == 'Ubuntu'

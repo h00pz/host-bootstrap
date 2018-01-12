@@ -1,0 +1,21 @@
+---
+tasks:
+  - name: Install latest Zabbix Agent
+    apt:
+      name: zabbix-agent
+      state: latest
+      update_cache: yes
+    become: yes
+      
+  - name: Fetch latest zabbix_agentd.conf
+    get_url: 
+      url: http://mirror.5thc.co/bootstrap/zabbix_agentd.conf
+      dest: /etc/zabbix/zabbix_agentd.conf
+      force: yes
+    become: yes
+
+  - name: Restart zabbix agent if content changed
+    systemd:
+      state: restarted
+      name: zabbix-agent
+    become: yes
