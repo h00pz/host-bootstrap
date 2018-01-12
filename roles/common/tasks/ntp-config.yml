@@ -8,6 +8,7 @@
 - name: Replace ntp.conf with 5C config
   template: src=ntp.conf.j2 dest=/etc/ntp.conf
   become: yes
+  register: ntp_conf
 
 - name: Restart NTP
   systemd:
