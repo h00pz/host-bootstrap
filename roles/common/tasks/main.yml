@@ -1,6 +1,6 @@
 ---
 tasks:
-  - import_tasks: eng-apt-signing.yml
-  - import_tasks: apt-sources.yml
-  - import_tasks: ntp-config.yml
-  - import_tasks: zabbix-agent-config.yml
+  - include_tasks: eng-apt-signing.yml
+  - include_tasks: apt-sources.yml
+  - include_tasks: ntp-config.yml
+  - include_tasks: zabbix-agent-config.yml
