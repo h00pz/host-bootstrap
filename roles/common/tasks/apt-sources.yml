@@ -1,13 +1,12 @@
 ---
-tasks:
-  - name: Update /etc/apt/sources.list
-    get_url: 
-      url: http://mirror.5thc.co/bootstrap/sources.list
-      dest: /etc/apt/sources.list
-      force: yes
-    become: yes
+- name: Update /etc/apt/sources.list
+  get_url: 
+    url: http://mirror.5thc.co/bootstrap/sources.list
+    dest: /etc/apt/sources.list
+    force: yes
+  become: yes
 
-  - name: Refresh apt cache
-    apt:
-      update_cache: yes
-    become: yes
+- name: Refresh apt cache
+  apt:
+    update_cache: yes
+  become: yes

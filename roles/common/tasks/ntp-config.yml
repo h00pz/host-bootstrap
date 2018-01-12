@@ -1,20 +1,18 @@
-# vim:ft=ansible:
 ---
-tasks:
-  - name: Install NTP
-    apt:
-      name: ntp
-      state: present
-    become: yes
+- name: Install NTP
+  apt:
+    name: ntp
+    state: present
+  become: yes
 
-  - name: Replace ntp.conf with 5C config
-    template: src=ntp.conf.j2 dest=/etc/ntp.conf
+- name: Replace ntp.conf with 5C config
+  template: src=ntp.conf.j2 dest=/etc/ntp.conf
 
-  - name: Restart NTP
-    systemd:
-      name: ntp.service
-      daemon_reload: yes
-      enabled: yes
-      state: restarted
-    when: ntp_conf.changed
-    become: yes
+- name: Restart NTP
+  systemd:
+    name: ntp.service
+    daemon_reload: yes
+    enabled: yes
+    state: restarted
+  when: ntp_conf.changed
+  become: yes
