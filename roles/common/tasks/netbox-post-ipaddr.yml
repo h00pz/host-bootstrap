@@ -22,3 +22,4 @@
     return_content: yes
     body_format: json
     body: '{"vrf": "{{ res.json.results[0].id }}","tenant":"{{ res.json.results[0].tenant.id }}","address":"{{ ansible_ssh_host | ipaddr }}","description":"{{ ansible_nodename }}"}' 
+    status_code: 201
