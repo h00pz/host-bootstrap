@@ -8,10 +8,6 @@
       Accept: 'application/json'
   register: res
 
-- name: Debug response
-  debug:
-    msg: "{{ res.json.results.id }}"
-
 - name: POST to Netbox
   uri:
     url: http://netbox.5thc.co/api/ipam/ip-addresses/
