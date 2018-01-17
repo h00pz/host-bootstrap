@@ -4,7 +4,7 @@
     url: http://netbox.5thc.co/api/ipam/vrfs/?tenant={{ openstack.location.project.name }}
     method: GET
     headers:
-      Authorization: "Token {{ netbox_api_token }}
+      Authorization: "Token {{ netbox_api_token }}"
       Accept: 'application/json'
   register: res
 
@@ -18,7 +18,7 @@
     method: POST
     body: "{{ lookup('template', 'ip-addr-post.j2') }}"
     headers:
-      Authorization: "Token {{ netbox_api_token }}
+      Authorization: "Token {{ netbox_api_token }}"
       Content-Type: 'application/json'
       Accept: 'application/json'
     return_content: yes
