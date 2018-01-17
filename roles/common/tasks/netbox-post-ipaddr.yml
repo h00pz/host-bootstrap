@@ -1,7 +1,5 @@
 ---
 - name: Retrieve Netbox VRF ID
-  environment:
-    no_proxy: netbox.5thc.co
   uri:
     url: http://netbox.5thc.co/api/ipam/vrfs/?tenant={{ openstack.location.project.name }}
     method: GET
