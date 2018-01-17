@@ -20,4 +20,4 @@
       Accept: 'application/json'
     return_content: yes
     body_format: json
-    body: "{ 
+    body: '{"vrf": "{{ res.json.results[0].id }}","tenant":"{{ openstack.location.project.name }}","address":"{{ ansible_ssh_host | ipaddr }}","description":"{{ ansible_nodename }}"}' 
