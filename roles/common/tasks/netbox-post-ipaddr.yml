@@ -1,5 +1,7 @@
 ---
 - name: Retrieve Netbox VRF ID
+  environment:
+    no_proxy: netbox.5thc.co
   uri:
     url: http://netbox.5thc.co/api/ipam/vrfs/?tenant={{ openstack.location.project.name }}
     method: GET
@@ -12,10 +14,10 @@
   uri:
     url: http://netbox.5thc.co/api/ipam/ip-addresses/
     method: POST
-    body: "{{ lookup('template', 'ip-addr-post.j2') }}"
     headers:
       Authorization: "Token {{ netbox_api_token }}"
       Content-Type: 'application/json'
       Accept: 'application/json'
     return_content: yes
     body_format: json
+    body: "{ 
