@@ -1,5 +1,5 @@
 {
-  "vrf": {{ vrf_id }},
+  "vrf": {{ res.json.results.id }},
   "tenant": {{ openstack.location.project.name }},
   "address": {{ ansible_ssh_host | ipaddr }},
   "description": {{ ansible_nodename }}
