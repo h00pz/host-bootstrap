@@ -3,4 +3,4 @@
 - include_tasks: apt-sources.yml
 - include_tasks: ntp-config.yml
 - include_tasks: zabbix-agent-config.yml
-- include_tasks: netbox-post-ipaddr.yml
+
