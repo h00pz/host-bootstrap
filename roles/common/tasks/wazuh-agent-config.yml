@@ -2,6 +2,7 @@
 - name: check if wazuh agent installed
   shell: "dpkg -l | grep wazuh-agent | wc -l"
   register: wazuh_install_check
+  become: yes
 
 - name: Install latest wazuh agent
   apt:
@@ -14,6 +15,7 @@
 - name: check wazuh server IP set
   shell: "grep -i 63.141.40.216 /var/ossec/etc/ossec.conf | wc -l"
   register: wazuh_server_ip_check
+  become: yes
 
 - name: set wazuh manager IP
   lineinfile:
@@ -21,10 +23,12 @@
     regexp: '    <server-ip>MANAGER_IP</server-ip>'
     line: '    <server-ip>63.141.40.216</server-ip>'
   when: wazuh_server_ip_check.stdout == "0"
+  become: yes
 
 - name: register wazuh agent
   shell: "/var/ossec/bin/agent-auth -m wazuh.5thc.co"
   when: wazuh_install_check.stdout == "0"
+  become: yes
 
 - name: Restart wazuh agent if content changed
   systemd:
