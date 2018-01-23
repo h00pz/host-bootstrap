@@ -4,6 +4,6 @@
 - include_tasks: ntp-config.yml
 - include_tasks: set-hostname.yml
 - include_tasks: zabbix-agent-config.yml
-- include_tasks: wazuh-agent.yml
+- include_tasks: wazuh-agent-config.yml
 - include_tasks: apt-upgrade.yml
 
