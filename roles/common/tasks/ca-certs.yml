@@ -9,11 +9,11 @@
 
 - name: Install 5thc SubCA cert
   copy: src=5thc-SubCA.crt dest=/usr/local/share/ca-certificates/5thc-SubCA.crt
-  become:yes
+  become: yes
 
 - name: Install 5thc SubCA2 cert
   copy: src=5thc-SubCA2.crt dest=/usr/local/share/ca-certificates/5thc-SubCA2.crt
-  become: yesy
+  become: yes
 
 - name: Update cert index
   shell: /usr/sbin/update-ca-certificates
