@@ -1,15 +1,20 @@
 ---
 - name: Ensure local certs directory exists
   file: state=directory path=/usr/local/share/ca-certificates
+  become: yes
 
 - name: Install 5thc CA cert
   copy: src=5thc-CA.crt dest=/usr/local/share/ca-certificates/5thc-CA.crt
+  become: yes
 
 - name: Install 5thc SubCA cert
   copy: src=5thc-SubCA.crt dest=/usr/local/share/ca-certificates/5thc-SubCA.crt
+  become:yes
 
 - name: Install 5thc SubCA2 cert
   copy: src=5thc-SubCA2.crt dest=/usr/local/share/ca-certificates/5thc-SubCA2.crt
+  become: yesy
 
 - name: Update cert index
   shell: /usr/sbin/update-ca-certificates
+  become: yes
