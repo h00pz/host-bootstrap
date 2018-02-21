@@ -1,5 +1,5 @@
 ---
-- name: Apply common config to all machiens
+- name: Bootstrap Host
   hosts: all
 
   environment:
