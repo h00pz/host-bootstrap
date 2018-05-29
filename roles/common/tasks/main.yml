@@ -2,6 +2,7 @@
 - include_tasks: eng-apt-signing-key.yml
 - include_tasks: apt-sources.yml
 - include_tasks: ntp-config.yml
+- include_tasks: central-timezone.yml
 - include_tasks: set-hostname.yml
 - include_tasks: ca-certs.yml
 - include_tasks: zabbix-agent-config.yml
