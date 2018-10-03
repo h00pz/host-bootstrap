@@ -1,7 +1,7 @@
 ---
 - name: Retrieve Netbox VRF ID
   uri:
-    url: http://netbox.5thc.co/api/ipam/vrfs/?tenant={{ openstack.location.project.name }}
+    url: http://NETBOX_URL/api/ipam/vrfs/?tenant={{ openstack.location.project.name }}
     method: GET
     headers:
       Authorization: "Token {{ netbox_api_token }}"
@@ -10,7 +10,7 @@
 
 - name: POST to Netbox
   uri:
-    url: http://netbox.5thc.co/api/ipam/ip-addresses/
+    url: http://NETBOX_URL/api/ipam/ip-addresses/
     method: POST
     headers:
       Authorization: "Token {{ netbox_api_token }}"
