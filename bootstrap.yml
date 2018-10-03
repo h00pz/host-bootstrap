@@ -2,8 +2,5 @@
 - name: Bootstrap Host
   hosts: all
 
-  environment:
-    no_proxy: netbox.5thc.co
-
   roles:
     - common
