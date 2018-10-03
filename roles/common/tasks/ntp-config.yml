@@ -5,7 +5,7 @@
     state: present
   become: yes
 
-- name: Replace ntp.conf with 5C config
+- name: Replace ntp.conf
   template: src=ntp.conf.j2 dest=/etc/ntp.conf
   become: yes
   register: ntp_conf
