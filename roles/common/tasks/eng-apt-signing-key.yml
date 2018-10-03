@@ -1,7 +1,7 @@
 ---
-- name: Install Engineering Team Apt Signing GPG key
+- name: Install Apt Signing GPG key
   apt_key:
-    url: http://mirror.5thc.co/bootstrap/eng-apt-signing
+    url: SIGNING_KEY_URL_HERE
     state: present
   become: yes
   when: ansible_distribution == 'Ubuntu'
