@@ -8,7 +8,7 @@
       
 - name: Fetch latest zabbix_agentd.conf
   get_url: 
-    url: http://mirror.5thc.co/bootstrap/zabbix_agentd.conf
+    url: http://FILESTORE/bootstrap/zabbix_agentd.conf
     dest: /etc/zabbix/zabbix_agentd.conf
     force: yes
   become: yes
