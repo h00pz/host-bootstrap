@@ -1,0 +1,14 @@
+##
+## Ansible Inventory
+##
+[all]
+[all:vars]
+ansible_ssh_pass=winterwonderland
+ansible_sudo_pass=winterwonderland
+
+[exporters]
+kvm-01 ansible_host=10.128.233.175 ansible_user=ubuntu
+kvm-02 ansible_host=10.128.233.177 ansible_user=ubuntu
+
+[prometheus]
+patronus ansible_host=10.128.233.190 ansible_user=ubuntu
