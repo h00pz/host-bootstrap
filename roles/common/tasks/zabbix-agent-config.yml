@@ -1,20 +1,124 @@
 ---
-- name: Install latest Zabbix Agent
-  apt:
-    name: zabbix-agent
-    state: latest
-    update_cache: yes
-  become: yes
-      
-- name: Fetch latest zabbix_agentd.conf
-  get_url: 
-    url: http://FILESTORE/bootstrap/zabbix_agentd.conf
-    dest: /etc/zabbix/zabbix_agentd.conf
-    force: yes
-  become: yes
+# Tasks specific for Debian/Ubuntu Systems
 
-- name: Restart zabbix agent if content changed
-  systemd:
-    state: restarted
-    name: zabbix-agent
+- name: "Include Zabbix gpg ids"
+  include_vars: zabbix.yml
+
+- name: "Set short version name"
+  set_fact:
+    zabbix_short_version: "{{ zabbix_version | regex_replace('\\.', '') }}"
+
+- name: "Debian | Install gpg key"
+  apt_key:
+    id: "{{ sign_keys[zabbix_short_version][ansible_distribution_release]['sign_key'] }}"
+    url: http://repo.zabbix.com/zabbix-official-repo.key
+  when:
+    - zabbix_repo == "zabbix"
   become: yes
+  tags:
+    - zabbix-agent
+    - init
+
+- name: "Debian | Installing deb-src repository Ubuntu"
+  apt_repository:
+    repo: "deb-src http://repo.zabbix.com/zabbix/{{ zabbix_version }}/ubuntu/ {{ ansible_distribution_release }} main"
+    state: present
+  when:
+    - ansible_distribution == "Ubuntu"
+    - zabbix_repo == "zabbix"
+  become: yes
+  tags:
+    - zabbix-agent
+    - init
+
+- name: "Debian | Installing deb repository Ubuntu"
+  apt_repository:
+    repo: "deb http://repo.zabbix.com/zabbix/{{ zabbix_version }}/ubuntu/ {{ ansible_distribution_release }} main"
+    state: present
+  when:
+    - ansible_distribution == "Ubuntu"
+    - zabbix_repo == "zabbix"
+  become: yes
+  tags:
+    - zabbix-agent
+    - init
+
+# Note: set cache_valid_time=0 to ensure that an apt-get update after the added repo-key
+# else you often get 'WARNING: The following packages cannot be authenticated!
+# See also:
+# http://askubuntu.com/questions/75565/why-am-i-getting-authentication-errors-for-packages-from-an-ubuntu-repository
+- name: "Debian | Installing zabbix-agent"
+  apt:
+    pkg:
+      - "{{ zabbix_agent_package }}"
+      - "{{ zabbix_sender_package }}"
+      - "{{ zabbix_get_package }}"
+    state: "{{ zabbix_agent_package_state }}"
+    update_cache: yes
+    cache_valid_time: 0
+  when: ansible_distribution in ['Ubuntu', 'Debian']
+  register: zabbix_agent_package_installed
+  until: zabbix_agent_package_installed is succeeded
+  become: yes
+  check_mode: no
+  tags:
+    - zabbix-agent
+    - init
+
+- name: "Install policycoreutils-python"
+  apt:
+    pkg: policycoreutils-python-utils
+    state: installed
+    update_cache: yes
+    cache_valid_time: 0
+  register: zabbix_agent_policycoreutils_installed
+  until: zabbix_agent_package_installed is succeeded
+  become: yes
+  when: zabbix_selinux
+
+- name: "Debian | Enable the service"
+  service:
+    name: "{{ zabbix_agent_service }}"
+    enabled: yes
+    use: service
+  become: yes
+  tags:
+    - zabbix-agent
+    - init
+    - service
+
+- name: "Configure zabbix-agent"
+  template:
+    src: zabbix_agentd.conf.j2
+    dest: /etc/zabbix/{{ zabbix_agent_conf }}
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart zabbix-agent
+  become: yes
+  tags:
+    - zabbix-agent
+    - config
+    - init
+
+- name: "Create include dir zabbix-agent"
+  file:
+    path: "{{ zabbix_agent_include }}"
+    owner: root
+    group: root
+    state: directory
+  become: yes
+  tags:
+    - config
+    - include
+
+- name: "Make sure the zabbix-agent service is running"
+  service:
+    name: "{{ zabbix_agent_service }}"
+    state: started
+    enabled: yes
+  become: yes
+  tags:
+    - init
+    - service
